@@ -3,18 +3,32 @@ import { ThemeProvider } from 'next-themes';
 import { Onest } from 'next/font/google';
 import './globals.css';
 import { ToasterProvider } from './providers/toaster';
+import { BRAND } from '@/lib/brand';
 
 const onest = Onest({
   subsets: ['latin'],
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.APP_URL?.trim() || BRAND.domain),
   title: {
-    default: 'Demo AIStarterKit OSS - Next.js AI Starter Kit Demo',
-    template: '%s | AIStarterKit OSS Demo',
+    default:
+      'AsiaBD Commerce AI - AI Listings & Content for E-commerce Sellers',
+    template: '%s | AsiaBD Commerce AI',
   },
-  description:
-    'Demo website of AIStarterKit OSS boilerplate. Built using Next.js, Tailwind CSS, Drizzle ORM, and PostgreSQL.',
+  description: BRAND.description,
+  openGraph: {
+    title: 'AsiaBD Commerce AI - AI Listings & Content for E-commerce Sellers',
+    description: BRAND.description,
+    url: '/',
+    siteName: BRAND.name,
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'AsiaBD Commerce AI',
+    description: BRAND.tagline,
+  },
 };
 
 export default function RootLayout({

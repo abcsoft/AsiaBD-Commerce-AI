@@ -6,14 +6,23 @@ import { Label } from '@/components/ui/label';
 import { EyeCloseIcon, EyeIcon } from '@/icons/icons';
 import { authValidation } from '@/lib/zod/auth.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { toast } from 'sonner';
 import { z } from 'zod';
+import { toast } from 'sonner';
 
 type Inputs = z.infer<typeof authValidation.register>;
 
+function nextTarget(): string {
+  if (typeof window === 'undefined') return '/dashboard';
+  const raw = new URLSearchParams(window.location.search).get('next');
+  return raw && raw.startsWith('/') && !raw.startsWith('//') ? raw : '/dashboard';
+}
+
 export default function SignupForm() {
+  const router = useRouter();
   const form = useForm<Inputs>({
     resolver: zodResolver(authValidation.register),
     defaultValues: {
@@ -23,7 +32,8 @@ export default function SignupForm() {
       password: '',
     },
   });
-  const [rememberMe, setRememberMe] = useState(false);
+
+  const [agreed, setAgreed] = useState(false);
   const [isShowPassword, setIsShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -32,22 +42,42 @@ export default function SignupForm() {
   };
 
   async function onSubmit(data: Inputs) {
+    if (!agreed) {
+      toast.error('Please agree to the Terms of Service to create an account.');
+      return;
+    }
     setIsLoading(true);
+    try {
+      const res = await fetch('/api/auth/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      const payload = await res.json().catch(() => null);
 
-    await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate API call
+      if (!res.ok) {
+        const message =
+          payload?.error?.message ?? 'Sign up failed. Please try again.';
+        toast.error(message);
+        if (payload?.error?.code === 'conflict') {
+          form.setError('email', { message: 'This email is already registered.' });
+        }
+        return;
+      }
 
-    toast.success(
-      <pre>
-        <code>{JSON.stringify(data, null, 2)}</code>
-      </pre>
-    );
-
-    setIsLoading(false);
+      toast.success('Account created - welcome to AsiaBD Commerce AI!');
+      router.push(nextTarget());
+      router.refresh();
+    } catch {
+      toast.error('Network error - please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
     <form onSubmit={form.handleSubmit(onSubmit)}>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <Controller
           control={form.control}
           name="firstName"
@@ -84,7 +114,7 @@ export default function SignupForm() {
               type="email"
               label="Email address"
               placeholder="Your email address"
-              groupClassName="col-span-full"
+              groupClassName="sm:col-span-2"
               disabled={isLoading}
               {...field}
               error={fieldState.error?.message}
@@ -92,12 +122,12 @@ export default function SignupForm() {
           )}
         />
 
-        <div className="col-span-full">
+        <div className="sm:col-span-2">
           <Label htmlFor="password">Password</Label>
           <div className="relative">
             <Input
               type={isShowPassword ? 'text' : 'password'}
-              placeholder="Enter your password"
+              placeholder="Create a password (min. 8 characters)"
               id="password"
               disabled={isLoading}
               {...form.register('password')}
@@ -113,29 +143,42 @@ export default function SignupForm() {
               {isShowPassword ? <EyeIcon /> : <EyeCloseIcon />}
             </button>
           </div>
-
           {form.formState.errors.password && (
-            <p className="text-red-500 text-sm mt-1.5">
+            <p className="mt-1.5 text-sm text-red-500">
               {form.formState.errors.password.message}
             </p>
           )}
         </div>
 
-        <Checkbox
-          label="Keep me logged in"
-          checked={rememberMe}
-          onChange={(e) => setRememberMe(e.target.checked)}
-          name="remember_me"
-          className="col-span-full"
-        />
+        <div className="sm:col-span-2">
+          <Checkbox
+            label={
+              <>
+                I agree to the{' '}
+                <Link href="/terms" className="font-semibold text-primary-500">
+                  Terms of Service
+                </Link>{' '}
+                and{' '}
+                <Link href="/privacy" className="font-semibold text-primary-500">
+                  Privacy Policy
+                </Link>
+              </>
+            }
+            checked={agreed}
+            onChange={(e) => setAgreed(e.target.checked)}
+            name="agree_terms"
+          />
+        </div>
 
-        <button
-          type="submit"
-          disabled={isLoading}
-          className="bg-primary-500 hover:bg-primary-600 transition py-3 px-6 w-full font-medium text-white text-sm rounded-full col-span-full disabled:opacity-75"
-        >
-          {isLoading ? 'Signing up...' : 'Sign Up'}
-        </button>
+        <div className="sm:col-span-2">
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="w-full rounded-full bg-primary-500 px-6 py-3 text-sm font-medium text-white transition hover:bg-primary-600 disabled:opacity-70"
+          >
+            {isLoading ? 'Creating account…' : 'Create Account'}
+          </button>
+        </div>
       </div>
     </form>
   );

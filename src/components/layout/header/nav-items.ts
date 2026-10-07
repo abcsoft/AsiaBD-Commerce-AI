@@ -6,8 +6,8 @@ export const navItems = [
   },
   {
     type: 'link',
-    label: 'Chat',
-    href: '/text-generator',
+    label: 'Tools',
+    href: '/tools',
   },
   {
     type: 'link',
@@ -21,12 +21,12 @@ export const navItems = [
   },
   {
     type: 'dropdown',
-    label: 'Pages',
+    label: 'App',
     items: [
+      { href: '/dashboard', label: 'Dashboard' },
+      { href: '/library', label: 'Saved Library' },
       { href: '/signin', label: 'Sign In' },
       { href: '/signup', label: 'Sign Up' },
-      { href: '/reset-password', label: 'Reset Password' },
-      { href: '/not-found', label: '404 Error' },
     ],
   },
 ] satisfies NavItem[];

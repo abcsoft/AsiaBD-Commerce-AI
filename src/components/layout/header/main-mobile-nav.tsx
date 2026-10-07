@@ -21,10 +21,10 @@ export default function MainMobileNav({ isOpen }: MobileMenuProps) {
   if (!isOpen) return null;
 
   return (
-    <div className="lg:hidden h-screen absolute top-full bg-white dark:bg-dark-primary w-full border-b border-gray-200 dark:border-gray-800">
+    <div className="absolute top-full h-screen w-full border-b border-gray-200 bg-white dark:border-gray-800 dark:bg-dark-primary lg:hidden">
       <div className="flex flex-col justify-between">
         <div className="flex-1 overflow-y-auto">
-          <div className="pt-2 pb-3 space-y-1 px-4 sm:px-6">
+          <div className="space-y-1 px-4 pb-3 pt-2 sm:px-6">
             {navItems.map((item) => {
               if (item.type === 'link') {
                 return (
@@ -32,7 +32,7 @@ export default function MainMobileNav({ isOpen }: MobileMenuProps) {
                     key={item.href}
                     href={item.href}
                     className={cn(
-                      'block px-3 py-2 rounded-md text-sm font-medium text-gray-500 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700',
+                      'block rounded-md px-3 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700',
                       {
                         'text-gray-800 dark:text-white': pathname === item.href,
                       }
@@ -49,8 +49,7 @@ export default function MainMobileNav({ isOpen }: MobileMenuProps) {
                     <button
                       onClick={() => toggleDropdown(item.label)}
                       className={cn(
-                        'flex justify-between items-center w-full px-3 py-2 rounded-md text-sm font-medium' +
-                          ' text-gray-500 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700',
+                        'flex w-full items-center justify-between rounded-md px-3 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700',
                         {
                           'text-gray-700 dark:text-gray-200': item.items.some(
                             (subItem) => pathname.includes(subItem.href)
@@ -76,11 +75,10 @@ export default function MainMobileNav({ isOpen }: MobileMenuProps) {
                             key={subItem.href}
                             href={subItem.href}
                             className={cn(
-                              'flex items-center px-3 py-2 gap-1.5 rounded-md text-sm font-medium text-gray-500' +
-                                ' dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700',
+                              'flex items-center gap-1.5 rounded-md px-3 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700',
                               {
                                 'px-2': 'icon' in subItem,
-                                'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200':
+                                'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-200':
                                   pathname.includes(subItem.href),
                               }
                             )}
@@ -97,19 +95,19 @@ export default function MainMobileNav({ isOpen }: MobileMenuProps) {
           </div>
         </div>
 
-        <div className="flex flex-col pt-2 pb-3 space-y-3 px-8">
+        <div className="flex flex-col space-y-3 px-8 pb-3 pt-2">
           <Link
             href="/signin"
-            className="text-sm block w-full border h-11 border-gray-200 px-5 py-3 rounded-full text-center font-medium text-gray-700 dark:text-gray-400 hover:text-primary-500"
+            className="block h-11 w-full rounded-full border border-gray-200 px-5 py-3 text-center text-sm font-medium text-gray-700 hover:text-primary-500 dark:border-gray-700 dark:text-gray-400"
           >
             Sign In
           </Link>
 
           <Link
             href="/signup"
-            className="flex items-center px-5 py-3 gradient-btn  justify-center text-sm text-white rounded-full button-bg h-11"
+            className="gradient-btn button-bg flex h-11 items-center justify-center rounded-full px-5 py-3 text-sm text-white"
           >
-            Get Started Free
+            Start free
           </Link>
         </div>
       </div>

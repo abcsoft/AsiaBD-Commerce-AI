@@ -11,11 +11,14 @@ type Props = {
 };
 
 export function PricingCard({ plan, billingPeriod }: Props) {
+  const isStarter = plan.name === 'Starter';
+  const isContact = plan.ctaHref === '/contact';
+
   return (
     <div className="relative">
       <div
-        className={`bg-white dark:bg-dark-primary rounded-[20px] shadow-one relative z-10 h-full ${
-          plan.popular ? 'relative border-2 border-primary-500' : ''
+        className={`relative z-10 h-full rounded-[20px] bg-white shadow-one transition-transform duration-300 hover:-translate-y-1 dark:bg-dark-primary ${
+          plan.popular ? 'popular-frame' : ''
         }`}
       >
         <div className="p-8">
@@ -24,12 +27,12 @@ export function PricingCard({ plan, billingPeriod }: Props) {
               {plan.name}
             </h2>
             {plan.popular && (
-              <span className="px-2 py-1 text-xs font-medium dark:text-pir rounded-full dark:bg-primary-500/15 bg-primary-50 text-primary-500">
+              <span className="rounded-full bg-primary-50 px-2 py-1 text-xs font-medium text-primary-500 dark:bg-primary-500/15 dark:text-primary-300">
                 Popular
               </span>
             )}
           </div>
-          <p className="flex items-baseline mt-4">
+          <p className="mt-4 flex items-baseline">
             <span className="text-4xl font-semibold text-gray-800 dark:text-white/90">
               {plan.pricing[billingPeriod].formattedPrice}
             </span>
@@ -44,23 +47,24 @@ export function PricingCard({ plan, billingPeriod }: Props) {
             {plan.description}
           </p>
 
-          {plan.name.includes('Enterprise') ? (
+          {isContact ? (
             <ContactSalesLink>{plan.cta}</ContactSalesLink>
           ) : (
-            <button
+            <Link
+              href={plan.ctaHref}
               className={cn(
-                'block w-full px-8 py-3.5 mt-7 text-sm font-medium text-center rounded-full transition',
+                'mt-7 block w-full rounded-full px-8 py-3.5 text-center text-sm font-medium transition',
                 {
-                  'dark:bg-dark-primary dark:text-white/90 dark:hover:bg-gray-800 dark:border-gray-800 text-gray-800 bg-white border border-gray-200 hover:bg-gray-50':
-                    plan.name.includes('Free'),
-                  'gradient-btn text-white': plan.popular,
-                  'dark:hover:bg-primary-500 dark:bg-white/[0.03] hover:bg-gray-900 text-white bg-gray-700':
-                    !plan.popular && !plan.name.includes('Free'),
+                  'gradient-btn btn-shine text-white': plan.popular,
+                  'border border-gray-200 bg-white text-gray-800 hover:bg-gray-50 dark:border-gray-800 dark:bg-dark-primary dark:text-white/90 dark:hover:bg-gray-800':
+                    !plan.popular && isStarter,
+                  'bg-gray-700 text-white hover:bg-gray-900 dark:bg-white/[0.03] dark:hover:bg-primary-500':
+                    !plan.popular && !isStarter,
                 }
               )}
             >
-              {plan.cta}``
-            </button>
+              {plan.cta}
+            </Link>
           )}
         </div>
         <div className="px-8 pb-7">
@@ -81,7 +85,7 @@ export function PricingCard({ plan, billingPeriod }: Props) {
       </div>
 
       {plan.popular && (
-        <GlowGradient className="absolute -left-full -translate-x-20 top-0 max-lg:hidden" />
+        <GlowGradient className="absolute -left-full top-0 -translate-x-20 max-lg:hidden" />
       )}
     </div>
   );
@@ -91,7 +95,7 @@ function ContactSalesLink({ children }: PropsWithChildren) {
   return (
     <Link
       href="/contact"
-      className="block w-full px-8 py-3.5 mt-7 text-sm font-medium text-center rounded-full transition dark:hover:bg-primary-500 dark:bg-white/[0.03] hover:bg-gray-900 text-white bg-gray-700"
+      className="mt-7 block w-full rounded-full bg-gray-700 px-8 py-3.5 text-center text-sm font-medium text-white transition hover:bg-gray-900 dark:bg-white/[0.03] dark:hover:bg-primary-500"
     >
       {children}
     </Link>

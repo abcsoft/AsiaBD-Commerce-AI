@@ -1,76 +1,109 @@
-import Image from 'next/image';
 import Link from 'next/link';
-import HeroLogos from '../hero-logos';
+import Tilt from '@/components/motion/tilt';
+import MarketplaceStrip from '../marketplace-strip';
+import AppPreviewMock from './app-preview-mock';
+import HeroFloatChips from './hero-float-chips';
 import { Subheading } from './subheading';
-import { IntroVideo } from './intro-video';
 
 export default function HeroSection() {
   return (
-    <section className="pt-16 relative overflow-hidden dark:bg-[#171F2E]">
-      <div className="max-w-[120rem] mx-auto relative">
-        <div className="wrapper">
-          <div className="max-w-[800px] mx-auto">
-            <div className="text-center pb-16">
-              <Subheading text="Most Powerful AI Tools at One Place" />
+    <section className="relative overflow-hidden pt-16 dark:bg-[#171F2E]">
+      {/* Atmosphere: drifting aurora orbs + fine grid */}
+      <div className="pointer-events-none absolute inset-0 z-0" aria-hidden="true">
+        <div className="anim-orb-a absolute -top-24 left-[8%] size-[420px] rounded-full bg-[radial-gradient(circle,rgba(56,168,240,0.26),transparent_65%)] blur-2xl" />
+        <div className="anim-orb-b absolute right-[6%] top-10 size-[380px] rounded-full bg-[radial-gradient(circle,rgba(47,126,248,0.22),transparent_65%)] blur-2xl" />
+        <div className="absolute left-1/2 top-1/3 h-[520px] w-[820px] -translate-x-1/2 rounded-full bg-[radial-gradient(ellipse,rgba(26,99,196,0.12),transparent_70%)] blur-3xl" />
+      </div>
+      <div
+        className="hero-grid-bg pointer-events-none absolute inset-0 z-0"
+        aria-hidden="true"
+      />
 
-              <h1 className="text-gray-700 mx-auto font-bold mb-4 text-4xl sm:text-[50px] dark:text-white/90 sm:leading-[64px] max-w-[700px]">
-                Transform Ideas into Reality with Intelligent AI Tools
+      <div className="relative mx-auto max-w-[120rem]">
+        <div className="wrapper">
+          <div className="mx-auto max-w-[820px]">
+            <div className="pb-14 text-center">
+              <div className="anim-hero-rise">
+                <Subheading text="Built for e-commerce sellers" />
+              </div>
+
+              <h1
+                className="anim-hero-rise mx-auto mb-4 max-w-[740px] text-4xl font-bold text-gray-700 dark:text-white/90 sm:text-[50px] sm:leading-[64px]"
+                style={{ animationDelay: '110ms' }}
+              >
+                Turn product details into{' '}
+                <span className="hero-accent anim-gradient-pan">
+                  listings that sell
+                </span>
               </h1>
-              <p className="max-w-[537px] text-center mx-auto dark:text-gray-400 text-gray-500 text-base">
-                Unleash the Power of Artificial Intelligence to Streamline Your
-                Workflow, Boost Productivity, and Redefine Success.
+              <p
+                className="anim-hero-rise mx-auto max-w-[560px] text-center text-base text-gray-500 dark:text-gray-400"
+                style={{ animationDelay: '210ms' }}
+              >
+                AsiaBD Commerce AI writes marketplace-ready titles, SEO
+                descriptions, ad copy, and customer replies for Shopify, Amazon,
+                Etsy, and TikTok Shop, tuned to your brand voice.
               </p>
 
-              <div className="mt-9 flex sm:flex-row flex-col gap-3 relative z-30 items-center justify-center">
+              <div
+                className="anim-hero-rise relative z-30 mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row"
+                style={{ animationDelay: '310ms' }}
+              >
                 <Link
-                  href="/text-generator"
-                  className="bg-primary-500 transition h-12 inline-flex items-center justify-center hover:bg-primary-600 px-6 py-3 rounded-full text-white text-sm"
+                  href="/signup"
+                  className="gradient-btn btn-shine inline-flex h-12 items-center justify-center rounded-full px-7 text-sm font-medium text-white"
                 >
-                  Explore app
+                  Start generating free
                 </Link>
-
-                <IntroVideo />
+                <a
+                  href="#how-it-works"
+                  className="inline-flex h-12 items-center justify-center rounded-full border border-gray-200 px-7 text-sm font-medium text-gray-600 transition hover:border-primary-300 hover:text-primary-500 dark:border-gray-700 dark:text-gray-300"
+                >
+                  See how it works
+                </a>
               </div>
+
+              <p
+                className="anim-hero-rise mt-4 text-xs text-gray-400"
+                style={{ animationDelay: '400ms' }}
+              >
+                Free account · 50 welcome credits, no credit card required
+              </p>
             </div>
           </div>
-          <div className="max-w-[1000px] mx-auto relative">
-            <div className="p-3 sm:p-[18px] relative z-30 rounded-[32px] border border-white/30 dark:border-white/10 bg-white/20">
-              <Image
-                src="/images/hero/hero-img.jpg"
-                alt=""
-                className="w-full rounded-2xl block dark:hidden"
-                width={966}
-                height={552}
-              />
-              <Image
-                src="/images/hero/hero-img-dark.png"
-                alt=""
-                className="w-full rounded-2xl hidden dark:block"
-                width={966}
-                height={552}
-              />
+
+          <div className="relative mx-auto max-w-[1000px]">
+            <div
+              className="anim-hero-tilt-in relative z-30 p-2 sm:p-3"
+              style={{ animationDelay: '420ms' }}
+            >
+              <Tilt max={5} scale={1.012}>
+                <AppPreviewMock />
+              </Tilt>
             </div>
-            <div className="absolute hidden lg:block z-10 -top-20 -translate-y-20 left-1/2 -translate-x-1/2">
+            <HeroFloatChips />
+            <div className="absolute left-1/2 top-0 hidden -translate-x-1/2 -translate-y-20 lg:block">
               <svg
-                width="1300"
-                height="1001"
-                viewBox="0 0 1300 1001"
+                width="1100"
+                height="900"
+                viewBox="0 0 1100 900"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
               >
-                <g opacity="0.7" filter="url(#filter0_f_9279_7148)">
-                  <circle cx="800" cy="500.03" r="300" fill="#4E6EFF" />
+                <g opacity="0.45" filter="url(#heroGlowA)">
+                  <circle cx="680" cy="450" r="280" fill="#2f7ef8" />
                 </g>
-                <g opacity="0.3" filter="url(#filter1_f_9279_7148)">
-                  <circle cx="500" cy="500.03" r="300" fill="#FF58D5" />
+                <g opacity="0.25" filter="url(#heroGlowB)">
+                  <circle cx="420" cy="450" r="280" fill="#38a8f0" />
                 </g>
                 <defs>
                   <filter
-                    id="filter0_f_9279_7148"
-                    x="300"
-                    y="0.029541"
-                    width="1000"
-                    height="1000"
+                    id="heroGlowA"
+                    x="0"
+                    y="-230"
+                    width="1360"
+                    height="1360"
                     filterUnits="userSpaceOnUse"
                     colorInterpolationFilters="sRGB"
                   >
@@ -81,17 +114,14 @@ export default function HeroSection() {
                       in2="BackgroundImageFix"
                       result="shape"
                     />
-                    <feGaussianBlur
-                      stdDeviation="100"
-                      result="effect1_foregroundBlur_9279_7148"
-                    />
+                    <feGaussianBlur stdDeviation="100" result="blur" />
                   </filter>
                   <filter
-                    id="filter1_f_9279_7148"
-                    x="0"
-                    y="0.029541"
-                    width="1000"
-                    height="1000"
+                    id="heroGlowB"
+                    x="-260"
+                    y="-230"
+                    width="1360"
+                    height="1360"
                     filterUnits="userSpaceOnUse"
                     colorInterpolationFilters="sRGB"
                   >
@@ -102,50 +132,16 @@ export default function HeroSection() {
                       in2="BackgroundImageFix"
                       result="shape"
                     />
-                    <feGaussianBlur
-                      stdDeviation="100"
-                      result="effect1_foregroundBlur_9279_7148"
-                    />
+                    <feGaussianBlur stdDeviation="100" result="blur" />
                   </filter>
                 </defs>
               </svg>
             </div>
           </div>
         </div>
-
-        <div className="max-[1100px]:hidden">
-          <Image
-            src="/images/hero/shape-left-1.svg"
-            className="absolute top-14 left-16 floating-1"
-            alt=""
-            width={170}
-            height={44}
-          />
-          <Image
-            src="/images/hero/shape-left-2.svg"
-            className="absolute left-[145px] top-[298px] floating-2 max-[1240px]:left-[80px]"
-            alt=""
-            width={181}
-            height={44}
-          />
-          <Image
-            src="/images/hero/shape-right-1.svg"
-            className="absolute right-16 top-[108px] floating-3"
-            alt=""
-            width={176}
-            height={44}
-          />
-          <Image
-            src="/images/hero/shape-right-2.svg"
-            className="absolute top-[316px] right-[200px] floating-4 max-[1240px]:right-[80px] max-[1350px]:right-[150px] max-[1500px]:right-[200px]"
-            alt=""
-            width={179}
-            height={44}
-          />
-        </div>
       </div>
-      <div className="hero-glow-bg pointer-events-none w-full h-167.5 absolute z-10 bottom-0"></div>
-      <HeroLogos />
+      <div className="hero-glow-bg pointer-events-none absolute bottom-0 z-10 h-167.5 w-full" />
+      <MarketplaceStrip />
     </section>
   );
 }

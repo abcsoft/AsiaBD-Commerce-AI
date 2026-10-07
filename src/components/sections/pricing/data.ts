@@ -12,19 +12,19 @@ export const BILLING_PERIODS = [
 ] as const;
 
 const AMOUNTS = {
-  free: {
+  starter: {
     monthly: 0,
     yearly: 0,
   },
-  plus: {
-    monthly: 15,
-    yearly: 144,
+  growth: {
+    monthly: 19,
+    yearly: 182,
   },
   pro: {
-    monthly: 40,
-    yearly: 384,
+    monthly: 49,
+    yearly: 470,
   },
-  enterprise: {
+  agency: {
     monthly: null,
     yearly: null,
   },
@@ -33,109 +33,104 @@ const AMOUNTS = {
 export type TBILLING_PLAN = (typeof BILLING_PLANS)[number];
 export const BILLING_PLANS = [
   {
-    name: 'Free',
+    name: 'Starter',
     description:
-      'For hobbyists exploring AI—get started with essential features and a small token allowance.',
+      'For new sellers testing the waters - every core tool with welcome credits.',
     pricing: {
       monthly: {
-        amount: AMOUNTS['free']['monthly'],
-        formattedPrice: '$' + AMOUNTS['free']['monthly'],
-        stripeId: null,
+        amount: AMOUNTS['starter']['monthly'],
+        formattedPrice: '$' + AMOUNTS['starter']['monthly'],
       },
       yearly: {
-        amount: AMOUNTS['free']['yearly'],
-        formattedPrice: '$' + AMOUNTS['free']['yearly'],
-        stripeId: null,
+        amount: AMOUNTS['starter']['yearly'],
+        formattedPrice: '$' + AMOUNTS['starter']['yearly'],
       },
     },
     features: [
-      'Basic AI model access',
-      'Up to 25,000 tokens / month',
-      'Limited to 3 projects',
-      'No API key support',
-      'Community support only',
+      'All nine AI tools',
+      '50 welcome credits',
+      'Marketplace-aware output formats',
+      'Saved content library',
+      'Demo mode + live Claude when configured',
     ],
-    cta: 'Try it for free',
+    cta: 'Start free',
+    ctaHref: '/dashboard',
     popular: false,
   },
   {
-    name: 'Plus plan',
+    name: 'Growth',
     description:
-      'For developers building real products—higher limits and more flexible usage.',
+      'For active sellers publishing across multiple marketplaces every week.',
     pricing: {
       monthly: {
-        amount: AMOUNTS['plus']['monthly'],
-        formattedPrice: '$' + AMOUNTS['plus']['monthly'],
-        stripeId: process.env.NEXT_PUBLIC_PLUS_MONTHLY_PRICE_ID!,
+        amount: AMOUNTS['growth']['monthly'],
+        formattedPrice: '$' + AMOUNTS['growth']['monthly'],
       },
       yearly: {
-        amount: AMOUNTS['plus']['yearly'],
-        formattedPrice: '$' + AMOUNTS['plus']['yearly'],
-        stripeId: process.env.NEXT_PUBLIC_PLUS_YEARLY_PRICE_ID!,
+        amount: AMOUNTS['growth']['yearly'],
+        formattedPrice: '$' + AMOUNTS['growth']['yearly'],
       },
     },
     features: [
-      'Everything in Free',
-      'Up to 250,000 tokens / month',
-      'Unlimited projects',
-      'Bring your own OpenAI API key',
-      'Basic analytics dashboard',
+      'Everything in Starter',
+      '1,500 credits / month',
+      'Etsy & TikTok Shop formatting',
+      'Bulk generation - up to 10 products per run',
+      'Brand voice profiles',
       'Email support',
     ],
-    cta: 'Subscribe Now',
+    cta: 'Choose Growth',
+    ctaHref: '/dashboard',
     popular: true,
   },
   {
-    name: 'Pro plan',
+    name: 'Professional',
     description:
-      'For teams and power users who need generous token limits and advanced tooling.',
+      'For teams and power sellers who publish daily and export everywhere.',
     pricing: {
       monthly: {
         amount: AMOUNTS['pro']['monthly'],
         formattedPrice: '$' + AMOUNTS['pro']['monthly'],
-        stripeId: process.env.NEXT_PUBLIC_PRO_MONTHLY_PRICE_ID!,
       },
       yearly: {
         amount: AMOUNTS['pro']['yearly'],
         formattedPrice: '$' + AMOUNTS['pro']['yearly'],
-        stripeId: process.env.NEXT_PUBLIC_PRO_YEARLY_PRICE_ID!,
       },
     },
     features: [
-      'Everything in Plus',
-      'Up to 1 million tokens / month',
-      'Advanced model selection (GPT-4, Claude 3)',
+      'Everything in Growth',
+      '5,000 credits / month',
+      'Advanced exports - CSV & JSON',
+      'Priority generation queue',
+      'Multiple brand voices',
       'Priority support',
-      'Team collaboration tools',
-      'Exportable usage reports',
     ],
-    cta: 'Subscribe Now',
+    cta: 'Go Professional',
+    ctaHref: '/dashboard',
     popular: false,
   },
   {
-    name: 'Enterprise',
+    name: 'Agency',
     description:
-      'Tailored for companies with high-volume needs and advanced security.',
+      'For agencies and multi-store operations with high-volume needs.',
     pricing: {
       monthly: {
-        amount: AMOUNTS['enterprise']['monthly'],
+        amount: AMOUNTS['agency']['monthly'],
         formattedPrice: "Let's talk",
-        stripeId: null,
       },
       yearly: {
-        amount: AMOUNTS['enterprise']['yearly'],
+        amount: AMOUNTS['agency']['yearly'],
         formattedPrice: "Let's talk",
-        stripeId: null,
       },
     },
     features: [
-      'Everything in Pro',
-      'Unlimited tokens',
-      'Dedicated AI instance (optional)',
-      'SLA-backed support (24/7)',
-      'SSO & audit logging',
+      'Unlimited seats',
+      'Custom credit pools',
+      'Onboarding & template setup',
+      'Dedicated support channel',
     ],
     cta: 'Contact sales',
+    ctaHref: '/contact',
     popular: false,
   },
 ];

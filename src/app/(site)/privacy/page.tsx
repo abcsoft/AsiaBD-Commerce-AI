@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import LegalPage from '@/components/sections/legal-page';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy',
@@ -7,111 +7,93 @@ export const metadata: Metadata = {
 
 export default function PrivacyPage() {
   return (
-    <section className="py-20">
-      <div className="wrapper">
-        <div className="max-w-[800px] mx-auto">
-          <p className="text-gray-500 dark:text-gray-400 font-medium mb-2">
-            Updated
-            <span className="text-gray-800 ml-1 inline-block dark:text-white/90">
-              15 Jan, 2028
-            </span>
-          </p>
-          <h2 className="mb-12 text-4xl font-semibold text-gray-800 dark:text-white/90">
-            Privacy Policy
-          </h2>
-          <div className="mb-6">
-            <p className="text-gray-500 dark:text-gray-400 font-normal leading-6 mb-6">
-              All of our registered users information ( Name, Email, Phone
-              Number & Address ) are secure to us. We are committed to taking
-              care of all information and we are promised to our customers that
-              we are never going to share their information with.
-            </p>
-            <p className="text-gray-500 dark:text-gray-400 font-normal leading-6">
-              Also, We do not store any credit card information in server, all
-              payments are processed by world leading payment gateway PayPal and
-              Paddle and our site is secured by SSL encryption.
-            </p>
-          </div>
-          <div className="mb-6">
-            <h2 className="mb-4 text-2xl dark:text-white/90 font-semibold text-gray-800">
-              Rights you have over your data
-            </h2>
-            <p className="text-gray-500 font-normal dark:text-gray-400 leading-6 mb-4">
-              lineicons collects data about visits to lineicons.com.
-            </p>
-            <p className="text-gray-500 font-normal dark:text-gray-400 leading-6">
-              If you have an account on this site, or have left comments, you
-              can request to receive an exported file of the personal data we
-              hold about you, including any data you have provided to us. You
-              can also request that we erase any personal data we hold about
-              you. This does not include any data we are obliged to keep for
-              administrative, legal, or security purposes.
-            </p>
-          </div>
-          <div className="mb-12">
-            <h2 className="mb-4 text-2xl font-semibold text-gray-800 dark:text-white/90">
-              We grant refund if :
-            </h2>
-            <ul className="list-disc list-inside space-y-4">
-              <li className="text-gray-500 dark:text-gray-400 font-normal leading-6 mb-4">
-                The product purchased has stopped functioning or displaying that
-                we described to it’s details, or broken and we are not able to
-                give you solution.
-              </li>
-              <li className="text-gray-500 dark:text-gray-400 font-normal leading-6 mb-4">
-                The product purchased has stopped functioning or displaying that
-                we described to it’s details, or broken and we are not able to
-                give you solution.
-              </li>
-              <li className="text-gray-500 dark:text-gray-400 font-normal leading-6 mb-4">
-                If you opened any dispute before telling our support team about
-                your problem.
-              </li>
-            </ul>
-          </div>
-          <div className="mb-12">
-            <h2 className="mb-4 text-2xl font-semibold text-gray-800 dark:text-white/90">
-              We don’t grant refund if :
-            </h2>
-            <ul className="list-disc list-inside space-y-4">
-              <li className="text-gray-500 dark:text-gray-400 font-normal leading-6 mb-4">
-                The product purchased has stopped functioning or displaying that
-                we described to it’s details, or broken and we are not able to
-                give you solution.
-              </li>
-              <li className="text-gray-500 dark:text-gray-400 font-normal leading-6 mb-4">
-                If you opened any dispute before telling our support team about
-                your problem.
-              </li>
-              <li className="text-gray-500 dark:text-gray-400 font-normal leading-6 mb-4">
-                The product purchased has stopped functioning or displaying that
-                we described to it’s details, or broken and we are not able to
-                give you solution.
-              </li>
-            </ul>
-          </div>
-          <div className="mb-12">
-            <h2 className="mb-4 text-2xl font-semibold dark:text-white/90 text-gray-800">
-              Membership cancellation
-            </h2>
-            <div className="space-y-4">
-              <p className="text-gray-500 font-normal dark:text-gray-400 leading-6">
-                You can cancel your membership with us anytime you want by
-                sending an email to our support or openning a support ticket.
-                Unfortunately, we don’t have option to cancel Membership from
-                account settings right now but we are working on it.
-              </p>
-              <p className="text-gray-500 font-normal dark:text-gray-400 leading-6">
-                Still have any questions? feel free to open{' '}
-                <Link href="/" className="text-primary-500 font-semibold">
-                  Support Ticket
-                </Link>{' '}
-                to communicate directly!
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+    <LegalPage title="Privacy Policy" updated="October 2026">
+      <p>
+        This Privacy Policy explains what AsiaBD Commerce AI collects, how we
+        use it, and the choices you have.
+      </p>
+
+      <h2>Data we collect</h2>
+      <ul>
+        <li>
+          <strong>Workspace session:</strong> an anonymous session identifier
+          stored in a single httpOnly cookie, used to keep your credits,
+          generations, and saved library together. It contains no personal
+          information.
+        </li>
+        <li>
+          <strong>Content you submit:</strong> product details, customer
+          messages, and other inputs you type into the tools, plus the outputs
+          you generate or save.
+        </li>
+        <li>
+          <strong>Usage records:</strong> generation history and credit ledger
+          entries for your workspace.
+        </li>
+        <li>
+          <strong>Basic technical logs:</strong> standard server logs (such as
+          error diagnostics) that do not include your payment details.
+        </li>
+      </ul>
+
+      <h2>How we use it</h2>
+      <p>
+        To operate the Service: generate content you request, track credits,
+        power your library and dashboard, prevent abuse (rate limiting), and
+        improve reliability.
+      </p>
+
+      <h2>AI processing</h2>
+      <p>
+        When you generate content, your inputs (and any selected brand voice)
+        are sent from our servers to Anthropic&rsquo;s API to produce the
+        result. We do not use your content to train models.
+      </p>
+
+      <h2>Cookies</h2>
+      <p>
+        The Service uses a single functional session cookie (httpOnly) for your
+        workspace. We do not use advertising or third-party tracking cookies.
+      </p>
+
+      <h2>Payments</h2>
+      <p>
+        If you purchase credits or a subscription, payments are processed by
+        third-party payment providers. We do not store card numbers on our
+        servers.
+      </p>
+
+      <h2>Retention &amp; deletion</h2>
+      <p>
+        Saved library items can be edited or deleted at any time in the app.
+        Generation history is retained for your workspace so your dashboard
+        works. To request deletion of your entire workspace, contact{' '}
+        <a href="mailto:support@asiabd.shop">support@asiabd.shop</a>.
+      </p>
+
+      <h2>Security</h2>
+      <p>
+        API keys and provider credentials are stored server-side only and are
+        never exposed to the browser. Traffic is encrypted in transit (HTTPS).
+      </p>
+
+      <h2>Children</h2>
+      <p>
+        The Service is a business tool and is not directed at children under
+        13. We do not knowingly collect data from children.
+      </p>
+
+      <h2>Changes</h2>
+      <p>
+        We may update this policy; the &ldquo;Last updated&rdquo; date reflects
+        the current version.
+      </p>
+
+      <h2>Contact</h2>
+      <p>
+        Privacy questions or requests:{' '}
+        <a href="mailto:support@asiabd.shop">support@asiabd.shop</a>.
+      </p>
+    </LegalPage>
   );
 }

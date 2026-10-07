@@ -7,6 +7,7 @@ import { EyeCloseIcon, EyeIcon } from '@/icons/icons';
 import { authValidation } from '@/lib/zod/auth.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -14,7 +15,14 @@ import { toast } from 'sonner';
 
 type Inputs = z.infer<typeof authValidation.login>;
 
+function nextTarget(): string {
+  if (typeof window === 'undefined') return '/dashboard';
+  const raw = new URLSearchParams(window.location.search).get('next');
+  return raw && raw.startsWith('/') && !raw.startsWith('//') ? raw : '/dashboard';
+}
+
 export default function SignInForm() {
+  const router = useRouter();
   const form = useForm<Inputs>({
     resolver: zodResolver(authValidation.login),
     defaultValues: {
@@ -33,16 +41,32 @@ export default function SignInForm() {
 
   async function onSubmit(data: Inputs) {
     setIsLoading(true);
+    try {
+      const res = await fetch('/api/auth/signin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      const payload = await res.json().catch(() => null);
 
-    await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate API call
+      if (!res.ok) {
+        const message =
+          payload?.error?.message ?? 'Sign in failed. Please try again.';
+        toast.error(message);
+        if (payload?.error?.code === 'unauthorized') {
+          form.setError('password', { message: 'Incorrect email or password.' });
+        }
+        return;
+      }
 
-    toast.success(
-      <pre>
-        <code>{JSON.stringify(data, null, 2)}</code>
-      </pre>
-    );
-
-    setIsLoading(false);
+      toast.success('Welcome back!');
+      router.push(nextTarget());
+      router.refresh();
+    } catch {
+      toast.error('Network error - please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -85,9 +109,14 @@ export default function SignInForm() {
               {isShowPassword ? <EyeIcon /> : <EyeCloseIcon />}
             </button>
           </div>
+          {form.formState.errors.password && (
+            <p className="mt-1.5 text-sm text-red-500">
+              {form.formState.errors.password.message}
+            </p>
+          )}
         </div>
 
-        <div className="flex items-center justify-between flex-wrap gap-3">
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <Checkbox
             label="Keep me logged in"
             checked={rememberMe}
@@ -95,7 +124,7 @@ export default function SignInForm() {
             name="remember_me"
           />
 
-          <Link href="/reset-password" className="text-primary-500 text-sm">
+          <Link href="/reset-password" className="text-sm text-primary-500">
             Forgot password?
           </Link>
         </div>
@@ -103,9 +132,9 @@ export default function SignInForm() {
         <button
           type="submit"
           disabled={isLoading}
-          className="bg-primary-500 hover:bg-primary-600 transition py-3 px-6 w-full font-medium text-white text-sm rounded-full"
+          className="w-full rounded-full bg-primary-500 px-6 py-3 text-sm font-medium text-white transition hover:bg-primary-600 disabled:opacity-70"
         >
-          {isLoading ? 'Signing in...' : 'Sign In'}
+          {isLoading ? 'Signing in…' : 'Sign In'}
         </button>
       </div>
     </form>

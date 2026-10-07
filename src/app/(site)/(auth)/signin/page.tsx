@@ -1,42 +1,34 @@
-'use client';
-
+import { getCurrentUser } from '@/lib/auth';
+import type { Metadata } from 'next';
 import Link from 'next/link';
-import { SignInWithGithub, SignInWithGoogle } from '../_components/social-auth';
+import { redirect } from 'next/navigation';
 import SignInForm from './signin-form';
 
-export default function SignInPage() {
+export const metadata: Metadata = {
+  title: 'Sign In',
+};
+
+export default async function SignInPage() {
+  if (await getCurrentUser()) redirect('/dashboard');
+
   return (
-    <section className="py-28 relative overflow-hidden">
+    <section className="relative overflow-hidden py-28">
       <div className="wrapper">
-        <div className="relative max-w-[600px] mx-auto">
-          <div className="contact-wrapper border p-8 sm:p-14 relative z-30 bg-white dark:bg-dark-primary dark:border-dark-primary border-gray-100">
-            <div className="text-center mb-8">
-              <h3 className="text-gray-800 dark:text-white/90 font-bold text-3xl mb-2">
+        <div className="relative mx-auto max-w-[600px]">
+          <div className="contact-wrapper relative z-30 border border-gray-100 bg-white p-8 dark:border-dark-primary dark:bg-dark-primary sm:p-14">
+            <div className="mb-8 text-center">
+              <h3 className="mb-2 text-3xl font-bold text-gray-800 dark:text-white/90">
                 Sign In
               </h3>
               <p className="text-gray-500 dark:text-gray-400">
                 Enter your email and password to sign in!
               </p>
             </div>
-            <div className="flex flex-col sm:flex-row justify-center gap-y-3.5 gap-x-5">
-              <SignInWithGoogle />
-              <SignInWithGithub />
-            </div>
-            <div className="relative py-3 sm:py-5">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-200 dark:border-gray-800"></div>
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="p-2 text-gray-400 bg-white dark:bg-dark-primary sm:px-5 sm:py-2">
-                  Or
-                </span>
-              </div>
-            </div>
 
             <SignInForm />
 
             <div className="mt-5">
-              <p className="text-gray-700 dark:text-gray-400 text-sm">
+              <p className="text-sm text-gray-700 dark:text-gray-400">
                 Don’t have an account?{' '}
                 <Link
                   href="/signup"
@@ -50,23 +42,24 @@ export default function SignInPage() {
         </div>
       </div>
 
-      <div className="absolute -bottom-32 left-1/2 -translate-x-1/2 z-0">
+      <div className="absolute -bottom-32 left-1/2 z-0 -translate-x-1/2">
         <svg
           width="930"
           height="760"
           viewBox="0 0 930 760"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
         >
-          <g opacity="0.3" filter="url(#filter0_f_9248_10254)">
-            <circle cx="380.335" cy="380.335" r="179.665" fill="#FF58D5" />
+          <g opacity="0.3" filter="url(#signinGlowA)">
+            <circle cx="380.335" cy="380.335" r="179.665" fill="#38a8f0" />
           </g>
-          <g opacity="0.7" filter="url(#filter1_f_9248_10254)">
-            <circle cx="549.665" cy="380.335" r="179.665" fill="#4E6EFF" />
+          <g opacity="0.55" filter="url(#signinGlowB)">
+            <circle cx="549.665" cy="380.335" r="179.665" fill="#2f7ef8" />
           </g>
           <defs>
             <filter
-              id="filter0_f_9248_10254"
+              id="signinGlowA"
               x="0.669922"
               y="0.6698"
               width="759.33"
@@ -81,13 +74,10 @@ export default function SignInPage() {
                 in2="BackgroundImageFix"
                 result="shape"
               />
-              <feGaussianBlur
-                stdDeviation="100"
-                result="effect1_foregroundBlur_9248_10254"
-              />
+              <feGaussianBlur stdDeviation="100" result="blurA" />
             </filter>
             <filter
-              id="filter1_f_9248_10254"
+              id="signinGlowB"
               x="170"
               y="0.6698"
               width="759.33"
@@ -102,10 +92,7 @@ export default function SignInPage() {
                 in2="BackgroundImageFix"
                 result="shape"
               />
-              <feGaussianBlur
-                stdDeviation="100"
-                result="effect1_foregroundBlur_9248_10254"
-              />
+              <feGaussianBlur stdDeviation="100" result="blurB" />
             </filter>
           </defs>
         </svg>
